@@ -1,0 +1,22 @@
+model:
+  name: xgboost
+  params:
+    param_grid:
+      n_estimators: [100, 200, 300]
+      max_depth: [3, 5, 7, 10]
+      learning_rate: [0.01, 0.1, 0.2]
+
+data:
+  feature_type: descriptor
+  target: sigma
+  feature_path: ./data/processed/descriptor/descriptor_sigma.csv
+  data_path: ./data/raw/whole.csv
+
+training:
+  test_size: 0.2
+  random_seed: 42
+  grid_search: true
+
+output:
+  save_dir: ./results
+  model_name: XGBoost_descriptor_sigma

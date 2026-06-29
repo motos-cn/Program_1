@@ -1,0 +1,21 @@
+# Python 3.12.10
+#
+# 1. Install PyTorch (CUDA 13.2):
+#    pip3 install torch==2.12.0 torchvision==0.27.0 --index-url https://download.pytorch.org/whl/cu132
+#    (For CPU only: pip3 install torch==2.12.0 torchvision==0.27.0)
+# 2. Install remaining dependencies:
+#    pip install -r requirements.txt
+
+torch_geometric==2.8.0
+rdkit==2026.3.3
+scikit-learn==1.9.0
+xgboost==3.2.0
+shap==0.52.0
+pandas==3.0.3
+numpy==2.4.4
+matplotlib==3.10.9
+scipy==1.17.1
+tqdm==4.68.1
+pyyaml==6.0.3
+lazypredict==0.3.0
+networkx==3.6.1

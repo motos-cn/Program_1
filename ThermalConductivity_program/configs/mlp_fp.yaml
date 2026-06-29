@@ -1,0 +1,26 @@
+﻿model:
+  name: mlp
+  params:
+    hidden_dims: [256, 128, 64]
+
+data:
+  feature_type: fingerprint
+  target: lambda
+  feature_path: ./data/processed/fingerprint/fp_lambda.csv
+  data_path: ./data/raw/whole.csv
+
+training:
+  train_mode: true
+  batch_size: 64
+  lr: 0.001
+  epochs: 300
+  warmup: 50
+  test_size: 0.2
+  random_seed: 42
+  load_checkpoint: ./results/checkpoints/MLP_fp_lambda/model.pth
+  scheduler_t_max: 250
+  scheduler_eta_min: 1.0e-6
+
+output:
+  save_dir: ./results
+  model_name: MLP_fp_lambda

@@ -1,0 +1,30 @@
+﻿model:
+  name: gcn
+  params:
+    num_layers: 5
+    emb_dim: 128
+    feat_dim: 640
+    drop_ratio: 0.2
+
+data:
+  feature_type: graph
+  target: lambda
+  data_path: ./data/processed/graphs/data_lambda.npy
+  label_path: ./data/processed/graphs/label_lambda.npy
+
+training:
+  train_mode: true
+  batch_size: 32
+  lr: 0.001
+  epochs: 300
+  weight_decay: 1.0e-4
+  warmup: 50
+  test_size: 0.2
+  random_seed: 42
+  load_checkpoint: ./results/checkpoints/GCN_lambda/model.pth
+  scheduler_t_max: 250
+  scheduler_eta_min: 1.0e-6
+
+output:
+  save_dir: ./results
+  model_name: GCN_lambda

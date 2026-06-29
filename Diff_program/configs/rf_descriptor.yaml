@@ -1,0 +1,21 @@
+model:
+  name: random_forest
+  params:
+    param_grid:
+      n_estimators: [10, 50, 100, 200, 300]
+      max_depth: [10, 20, 30, null]
+
+data:
+  feature_type: descriptor
+  target: D-
+  feature_path: ./data/processed/descriptor/descriptor_D-.csv
+  data_path: ./data/raw/whole_D-.csv
+
+training:
+  test_size: 0.2
+  random_seed: 42
+  grid_search: true
+
+output:
+  save_dir: ./results
+  model_name: RF_descriptor_D-

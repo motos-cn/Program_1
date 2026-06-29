@@ -1,0 +1,26 @@
+model:
+  name: mlp
+  params:
+    hidden_dims: [256, 128, 64]
+
+data:
+  feature_type: descriptor
+  target: D-
+  feature_path: ./data/processed/descriptor/descriptor_D-.csv
+  data_path: ./data/raw/whole_D-.csv
+
+training:
+  train_mode: true
+  batch_size: 64
+  lr: 0.001
+  epochs: 300
+  warmup: 50
+  test_size: 0.2
+  random_seed: 42
+  load_checkpoint: ./results/checkpoints/MLP_descriptor_D-.model.pth
+  scheduler_t_max: 250
+  scheduler_eta_min: 1.0e-6
+
+output:
+  save_dir: ./results
+  model_name: MLP_descriptor_D-
