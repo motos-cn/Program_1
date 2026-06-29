@@ -67,7 +67,6 @@ def smiles_to_graph(smiles):
 
 
 def norm_condition(name, t):
-    """Z-score normalize T (and P for lambda)."""
     s = STATS[name]
     t_norm = (t - s["T_mean"]) / s["T_std"]
     if name == "lambda":
@@ -86,18 +85,18 @@ def load_model(project, ckpt_dir, cond_dim):
 
 
 def batch_predict(model, graphs, cond, name):
-    """Predict property for all valid graphs."""
-    valid = [(i, g) for i, g in enumerate(graphs) if g is not None]
-    if not valid:
+    """Predict property for all valid graphs, return array aligned to input."""
+    valid_idx = [i for i, g in enumerate(graphs) if g is not None]
+    if not valid_idx:
         return np.full(len(graphs), np.nan)
 
     preds = np.full(len(graphs), np.nan)
-    bs = 64
+    bs = 256
 
-    for start in range(0, len(valid), bs):
-        end = min(start + bs, len(valid))
-        idxs = [valid[j][0] for j in range(start, end)]
-        glist = [valid[j][1] for j in range(start, end)]
+    for start in range(0, len(valid_idx), bs):
+        end = min(start + bs, len(valid_idx))
+        idxs = valid_idx[start:end]
+        glist = [graphs[i] for i in idxs]
         batch_g = Batch.from_data_list(glist).to(DEVICE)
         n = len(glist)
 
@@ -126,56 +125,79 @@ def main():
     n_il = len(cations) * len(anions)
     print(f"ILs: {len(cations)} cations × {len(anions)} anions = {n_il}")
 
-    pairs = [
-        {"cation_smiles": c["cation_smiles"], "anion_smiles": a["anion_smiles"],
-         "IL_smiles": f"{c['cation_smiles']}.{a['anion_smiles']}"}
-        for c in cations.to_dict("records")
-        for a in anions.to_dict("records")
-    ]
+    il_smiles_list = []
+    cat_smiles_list = []
+    an_smiles_list = []
+    for c in cations.to_dict("records"):
+        for a in anions.to_dict("records"):
+            il_smiles_list.append(f"{c['cation_smiles']}.{a['anion_smiles']}")
+            cat_smiles_list.append(c["cation_smiles"])
+            an_smiles_list.append(a["anion_smiles"])
 
     # 2. Convert SMILES to graphs (once, reused across temperatures)
     print("Converting SMILES to graphs...")
-    graphs = [smiles_to_graph(p["IL_smiles"]) for p in pairs]
+    graphs = [smiles_to_graph(s) for s in il_smiles_list]
     n_valid = sum(g is not None for g in graphs)
-    print(f"  {n_valid}/{len(graphs)} valid")
+    n_failed = n_il - n_valid
+    print(f"  {n_valid}/{n_il} valid  ({n_failed} failed)")
+    if n_failed > 0:
+        failed = [il_smiles_list[i] for i, g in enumerate(graphs) if g is None]
+        print(f"  Failed SMILES (first 5): {failed[:5]}")
 
-    # 3. Predict at each temperature
-    rows = []
+    # 3. Load all models
     loaded_models = {}
     for name, (proj, ckpt, cdim) in MODELS.items():
         loaded_models[name] = load_model(proj, ckpt, cdim)
+        print(f"  Loaded {name} from {proj}/results/checkpoints/{ckpt}")
 
+    # 4. Predict at each temperature — one row per (IL, T)
+    rows = []
     for t in TEMPS:
         print(f"\nT = {t} K")
+        # Predict all 4 properties for this temperature
+        all_preds = {}
         for name, model in loaded_models.items():
             cond = norm_condition(name, t)
-            preds = batch_predict(model, graphs, cond, name)
-            for i, p in enumerate(pairs):
-                if not np.isnan(preds[i]):
-                    row = {
-                        "IL_smiles": p["IL_smiles"],
-                        "cation_smiles": p["cation_smiles"],
-                        "anion_smiles": p["anion_smiles"],
-                        "T": t,
-                        name: preds[i],
-                    }
-                    rows.append(row)
+            all_preds[name] = batch_predict(model, graphs, cond, name)
 
-    # 4. Assemble into one DataFrame
+        # Build one row per IL
+        for i in range(n_il):
+            d_plus = all_preds["D+"][i]
+            d_minus = all_preds["D-"][i]
+            sigma_val = all_preds["sigma"][i]
+            lambda_val = all_preds["lambda"][i]
+
+            # Skip ILs where ALL properties are NaN (graph conversion failed)
+            if graphs[i] is None:
+                continue
+
+            delta_d = abs(d_plus - d_minus) if not (np.isnan(d_plus) or np.isnan(d_minus)) else np.nan
+
+            rows.append({
+                "IL_smiles": il_smiles_list[i],
+                "cation_smiles": cat_smiles_list[i],
+                "anion_smiles": an_smiles_list[i],
+                "T": t,
+                "D+": d_plus,
+                "D-": d_minus,
+                "|ΔD|": delta_d,
+                "sigma": sigma_val,
+                "lambda": lambda_val,
+            })
+
+    # 5. Save
     df = pd.DataFrame(rows)
-    # Merge 4 property columns per (IL_smiles, T) — each row only has one property
-    df = df.groupby(["IL_smiles", "cation_smiles", "anion_smiles", "T"], as_index=False).first()
-    df["|ΔD|"] = (df["D+"] - df["D-"]).abs()
-
     out_cols = ["IL_smiles", "cation_smiles", "anion_smiles", "T",
                 "D+", "D-", "|ΔD|", "sigma", "lambda"]
     df[out_cols].to_csv(os.path.join(DIR, "virtual_IL_predictions.csv"), index=False)
 
-    # 5. Summary
+    # 6. Summary
     print("\nPrediction summary:")
     for t in TEMPS:
         sub = df[df["T"] == t]
-        print(f"  T={t}K: {len(sub)} ILs")
+        n_complete = len(sub)
+        n_any_nan = sub.isnull().any(axis=1).sum()
+        print(f"  T={t}K: {n_complete} ILs  ({n_any_nan} with ≥1 NaN property)")
         for col in ["D+", "D-", "|ΔD|", "sigma", "lambda"]:
             v = sub[col].dropna()
             print(f"    {col}: min={v.min():.4f}, max={v.max():.4f}, mean={v.mean():.4f}")
