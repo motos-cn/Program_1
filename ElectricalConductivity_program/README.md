@@ -86,12 +86,6 @@ python scripts/run_ml.py configs/rf_descriptor.yaml
 python scripts/run_ml.py configs/xgboost_gc.yaml
 ```
 
-**Quick benchmark** with LazyPredict:
-
-```bash
-python scripts/run_lazy_predict.py
-```
-
 ### Explainability
 
 ```bash
