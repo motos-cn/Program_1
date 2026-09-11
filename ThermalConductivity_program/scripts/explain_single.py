@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 import numpy as np
@@ -16,10 +17,10 @@ from src.datasets.graph_dataset import add_global_node
 # ============ Config ============
 method = 'occlusion'       # 'GNNExplainer' or 'occlusion'
 idx = 440                  # sample index
-config_path = '../configs/gin.yaml'
-checkpoint_path = '../results/checkpoints/GIN_lambda/model.pth'
-data_path = '../data/processed/fragments/data_frag_lambda.npy'
-output_dir = '../results/fragment_explain/' + method
+config_path = './configs/gin.yaml'
+checkpoint_path = './results/checkpoints/GIN_lambda/model.pth'
+data_path = './data/processed/fragments/data_frag_lambda.npy'
+output_dir = './results/fragment_explain/' + method
 seed = 42
 # GNNExplainer only
 epochs = 100
@@ -68,6 +69,8 @@ if method == 'GNNExplainer':
     atom_importance = np.zeros(num_atoms)
     for i in range(num_atoms):
         atom_importance[i] = (virtual_edge_mask[2 * i] + virtual_edge_mask[2 * i + 1]).item() / 2
+    # Subtract mean to distinguish above- vs below-average importance
+    atom_importance = atom_importance - atom_importance.mean()
 else:
     explainer = OcclusionExplainer(model, device=device)
     atom_importance = explainer.explain_atoms(

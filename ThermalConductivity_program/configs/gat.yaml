@@ -1,4 +1,4 @@
-﻿model:
+model:
   name: gat
   params:
     num_layers: 5

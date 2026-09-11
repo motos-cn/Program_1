@@ -1,15 +1,16 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import pandas as pd
 
 def main():
-    groups_df = pd.read_csv('../../data/processed/groups/groups.csv')
+    groups_df = pd.read_csv('./data/processed/groups/groups.csv')
     group_cols = [col for col in groups_df.columns if col not in ['Ion', 'SMILES']]
     smiles_to_groups = groups_df.set_index('SMILES')[group_cols]
 
-    dataset = pd.read_csv('../../data/raw/whole.csv')
+    dataset = pd.read_csv('./data/raw/whole.csv')
     dataset_new = dataset.drop_duplicates(subset=['IL_smiles'])
 
     features = []
@@ -23,7 +24,7 @@ def main():
 
     df = pd.DataFrame(features, columns=group_cols, index=dataset_new['IL_smiles'])
 
-    output_dir = '../../data/processed/groups'
+    output_dir = './data/processed/groups'
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(os.path.join(output_dir, 'gc_sigma.csv'))
 

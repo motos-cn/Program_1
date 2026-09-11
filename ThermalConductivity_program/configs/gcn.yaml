@@ -1,4 +1,4 @@
-﻿model:
+model:
   name: gcn
   params:
     num_layers: 5

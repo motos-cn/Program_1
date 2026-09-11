@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
 import pandas as pd
@@ -41,5 +42,5 @@ def process_graph_data(input_csv, output_npy, label_col=None, label_npy=None):
 
 
 if __name__ == '__main__':
-    process_graph_data('../data/raw/whole.csv', '../data/processed/graphs/data_lambda.npy',
-                       'lambda', '../data/processed/graphs/label_lambda.npy')
+    process_graph_data('./data/raw/whole.csv', './data/processed/graphs/data_lambda.npy',
+                       'lambda', './data/processed/graphs/label_lambda.npy')

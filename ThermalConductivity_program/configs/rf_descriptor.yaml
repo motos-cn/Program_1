@@ -1,4 +1,4 @@
-﻿model:
+model:
   name: random_forest
   params:
     param_grid:

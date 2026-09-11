@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import pandas as pd
 
@@ -264,8 +265,8 @@ def add_groups_to_smiles_csv(smiles_csv_path, output_path):
     df.to_csv(output_path, index=False)
 
 def main():
-    input_path = '../../data/raw/smiles.csv'
-    output_dir = '../../data/processed/groups'
+    input_path = './data/raw/smiles.csv'
+    output_dir = './data/processed/groups'
     os.makedirs(output_dir, exist_ok=True)
     add_groups_to_smiles_csv(input_path, os.path.join(output_dir, 'groups.csv'))
 

@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 import numpy as np
 import pandas as pd
@@ -46,7 +47,7 @@ def fill_missing_with_median(df):
     return df
 
 def main():
-    dataset = pd.read_csv('../../data/raw/whole.csv')
+    dataset = pd.read_csv('./data/raw/whole.csv')
     dataset_new = dataset.drop_duplicates(subset=['IL_smiles'])
 
     Mol_descriptors, desc_names = generate_descriptors(dataset_new['IL_smiles'])
@@ -58,7 +59,7 @@ def main():
     X_scaled = scaler.fit_transform(X)
     df = pd.DataFrame(X_scaled, columns=X.columns, index=dataset_new['IL_smiles'])
 
-    output_dir = '../../data/processed/descriptor'
+    output_dir = './data/processed/descriptor'
     os.makedirs(output_dir, exist_ok=True)
     df.to_csv(os.path.join(output_dir, 'descriptor_lambda.csv'))
 

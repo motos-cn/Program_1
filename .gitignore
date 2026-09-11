@@ -3,9 +3,26 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 
+# Virtual environments
+.venv/
+venv/
+
 # IDE
 .idea/
 .vscode/
 
 # Environment
 *.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs & temp
+*.log
+*.tmp
+*.bak
+
+# Project-specific: model weights and intermediate binary data (regenerable)
+*.pth
+*.npy

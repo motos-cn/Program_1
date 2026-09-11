@@ -1,4 +1,4 @@
-﻿model:
+model:
   name: gin
   params:
     num_layers: 5

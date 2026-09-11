@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import torch
 import numpy as np
@@ -17,10 +18,10 @@ from src.datasets.graph_dataset import add_global_node
 
 # ============ Config ============
 method = 'occlusion'       # 'GNNExplainer' or 'occlusion'
-config_path = '../configs/gin.yaml'
-checkpoint_path = '../results/checkpoints/GIN_D+/model.pth'
-data_path = '../data/processed/fragments/data_frag_D+.npy'
-output_dir = '../results/fragment_explain/' + method
+config_path = './configs/gin.yaml'
+checkpoint_path = './results/checkpoints/GIN_D+/model.pth'
+data_path = './data/processed/fragments/data_frag_D+.npy'
+output_dir = './results/fragment_explain/' + method
 seed = 42
 # Reliability assessment
 d_threshold = 0.8          # Cohen's d threshold (0.5=medium, 0.8=large)

@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+os.chdir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import numpy as np
 import pandas as pd
@@ -33,7 +34,7 @@ def process_frag_data(input_csv, output_npy, label_col=None, label_npy=None):
 
 
 if __name__ == '__main__':
-    process_frag_data('../data/raw/whole_D+.csv', '../data/processed/fragments/data_frag_D+.npy',
-                      'D+', '../data/processed/fragments/label_frag_D+.npy')
-    process_frag_data('../data/raw/whole_D-.csv', '../data/processed/fragments/data_frag_D-.npy',
-                      'D-', '../data/processed/fragments/label_frag_D-.npy')
+    process_frag_data('./data/raw/whole_D+.csv', './data/processed/fragments/data_frag_D+.npy',
+                      'D+', './data/processed/fragments/label_frag_D+.npy')
+    process_frag_data('./data/raw/whole_D-.csv', './data/processed/fragments/data_frag_D-.npy',
+                      'D-', './data/processed/fragments/label_frag_D-.npy')
