@@ -31,7 +31,6 @@ cation_name,cation_smiles,cation_category
 1-(3-carboxypropyl)-3-methylimidazolium,Cn1cc[n+](CCCC(=O)O)c1,Imidazolium
 1-(7-carboxyheptyl)-3-methylimidazolium,Cn1cc[n+](CCCCCCCC(=O)O)c1,Imidazolium
 1-methyl-1-propylimidazolium,CCC[N+]1(C)C=CN=C1,Imidazolium
-3-Ethyl-1-Vinylimidazolium,C=C[n+]1ccn(CC)c1,Imidazolium
 1-methyl-1-octylimidazolium,CCCCCCCC[N+]1(C)C=CN=C1,Imidazolium
 1.3-didecyl-2-methylimidazolium,CCCCCCCCCCn1cc[n+](CCCCCCCCCC)c1C,Imidazolium
 1-ethyl-2-(8-heptadecenyl)-4.5-dihydro-3-(2-hydroxyethyl)-1h-imidazolium,CCCCCCCCC=CCCCCCCCC1=[N+](CCO)CCN1CC,Imidazolium
@@ -59,6 +58,7 @@ cation_name,cation_smiles,cation_category
 1-propylimidazolium,CCC[NH+]1C=CN=C1,Imidazolium
 1-methyl-3-(3-oxobutyl)imidazolium,CC(=O)CCn1cc[n+](C)c1,Imidazolium
 1-(8-hydroxyoctyl)-3-methylimidazolium,Cn1cc[n+](CCCCCCCCO)c1,Imidazolium
+1-ethyl-2.3-dimethylimidazolium,CCn1cc[n+](C)c1C,Imidazolium
 2.3-dimethyl-1-propylimidazolium,CCC[n+]1ccn(C)c1C,Imidazolium
 1-butyl-2.3-dimethylimidazolium,CCCC[n+]1ccn(C)c1C,Imidazolium
 1-hexyloxymethyl-3-methyl-imidazolium,CCCCCCOC[n+]1ccn(C)c1,Imidazolium
@@ -82,7 +82,6 @@ N-(2-hydroxyethyl)ammonium,[NH3+]CCO,Ammonium
 benzyltetradecyldimethylammonium,CCCCCCCCCCCCCC[N+](C)(C)Cc1ccccc1,Ammonium
 benzyldodecyldimethylammonium,CCCCCCCCCCCC[N+](C)(C)Cc1ccccc1,Ammonium
 benzylhexadecyldimethylammonium,CCCCCCCCCCCCCCCC[N+](C)(C)Cc1ccccc1,Ammonium
-"N-(2-hydroxyethyl)-N,N-dimethylammonium",C[NH+](C)CCO,Ammonium
 "N,N,N,N-tetramethylammonium",C[N+](C)(C)C,Ammonium
 "2-Ethoxy-N-ethyl-N,N-dimethyl-2-oxoethamonium",CCOC(=O)C[N+](C)(C)CC,Ammonium
 "N,N-dipropylammonium",CCC[NH2+]CCC,Ammonium
@@ -184,6 +183,7 @@ trioctyloctadecylphosphonium,CCCCCCCCCCCCCCCCCC[P+](CCCCCCCC)(CCCCCCCC)CCCCCCCC,
 1.1-dihexylpyrrolidinium,CCCCCC[N+]1(CCCCCC)CCCC1,Pyrrolidinium
 1-hexyl-1-methylpyrrolidinium,CCCCCC[N+]1(C)CCCC1,Pyrrolidinium
 1-methyl-1-octylpyrrolidinium,CCCCCCCC[N+]1(C)CCCC1,Pyrrolidinium
+1-ethyl-1-methylpyrrolidinium,CC[N+]1(C)CCCC1,Pyrrolidinium
 1-methyl-1-propylpyrrolidinium,CCC[N+]1(C)CCCC1,Pyrrolidinium
 1-methyl-1-[4.5-bis(methylsulfide)pentyl]pyrrolidinium,CSCC(CCC[N+]1(C)CCCC1)SC,Pyrrolidinium
 1-(ethoxycarbonylmethyl)-1-methylpyrrolidinium,CCOC(=O)C[N+]1(C)CCCC1,Pyrrolidinium

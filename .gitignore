@@ -22,7 +22,3 @@ Thumbs.db
 *.log
 *.tmp
 *.bak
-
-# Project-specific: model weights and intermediate binary data (regenerable)
-*.pth
-*.npy

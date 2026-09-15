@@ -99,7 +99,7 @@ for t in temperatures:
                linewidths=0.4, depthshade=False, zorder=10)
 
     # Axis labels & ticks
-    ax.set_xlabel(r'$D_{\mathrm{amb}}$ ($10^{-6}$ cm$^2$/s)', labelpad=8, fontsize=11)
+    ax.set_xlabel(r'$D_{\mathrm{amb}}$ ($10^{-7}$ cm$^2$/s)', labelpad=8, fontsize=11)
     ax.set_ylabel(r'$\sigma$ (S/m)', labelpad=8, fontsize=11)
     ax.set_zlabel(r'$\lambda$ (W/(m$\cdot$K))', labelpad=6, fontsize=11)
     ax.set_title(r'$T = %g\ \mathrm{K}$' % t, fontsize=12, pad=2, fontweight='bold')
