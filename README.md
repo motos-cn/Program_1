@@ -91,10 +91,6 @@ python scripts/explain_batch.py
 
 # Single sample explanation (atom importance heatmap)
 python scripts/explain_single.py
-
-# Atom-level comparison between methods / symmetry analysis (Diff_program only)
-python scripts/compare_atom_importance.py
-python scripts/symmetry_deep_analysis.py
 ```
 
 ### 4. Virtual Screening
